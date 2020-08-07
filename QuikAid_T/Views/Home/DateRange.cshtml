@@ -1,0 +1,122 @@
+﻿@model QuikAid_T.ViewModels.DateRangeViewModel
+
+@{
+    ViewBag.Title = "DateRange";
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+<h2>Please provide date in mm/dd/yyyy format</h2>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+@*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).ready(function () {
+        $("input[type=datetime]").datepicker({
+            dateFormat: "mm/dd/yyyy",
+            changemonth: true,
+            changeyear: true
+        });
+    });
+</script>
+
+
+@using (Html.BeginForm("DateRangeO", "Home", FormMethod.Post))
+{
+    <div class="form-inline">
+        <div class="form-group mb-2">
+            @Html.Label("From Date:", new { @Cssclass = "sr-only" })
+            @Html.EditorFor(model => model.FromDate, new { @Cssclass = "form-control-plaintext" })
+            @Html.ValidationMessageFor(model => model.FromDate)
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            @Html.Label("To Date:", new { @Cssclass = "sr-only" })
+            @Html.EditorFor(model => model.ToDate, new { @Cssclass = "form-control-plaintext" })
+            @Html.ValidationMessageFor(model => model.ToDate)
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Show Data</button>
+    </div>
+}
+
+<br />
+
+@if (Model == null)
+{
+    <p>No Data Found</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.clientID)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ClientTable.FirstOrDefault().fname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientTable.FirstOrDefault().lName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientTable.FirstOrDefault().SSN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientTable.FirstOrDefault().address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientTable.FirstOrDefault().userId)
+            </th>
+        </tr>
+
+        @foreach (var item in Model.ClientTable)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.clientID)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.fname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SSN)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userId)
+                </td>
+            </tr>
+        }
+    </table>
+
+}
+
+
+
+
+
+
+@*<form class="form-inline" method="post" action="">
+        <div class="form-group mb-2">
+            <label for="staticEmail2" class="sr-only">Email</label>
+            <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="inputPassword2" class="sr-only">Password</label>
+            <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+    </form>*@
+
+
